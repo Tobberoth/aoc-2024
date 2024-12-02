@@ -20,18 +20,14 @@ public class Day01 : BaseDay
     }
 
     public override ValueTask<string> Solve_1() {
-        var diffSum = 0;
-        for (var i = 0; i < A.Count; i++) {
-            diffSum += Math.Abs(A[i] - B[i]);
-        }
+        var diffSum = A.Zip(B, (a, b) => Math.Abs(a - b)).Sum();
         return new ValueTask<string>($"{diffSum}");
     }
 
     public override ValueTask<string> Solve_2() {
         long bigInt = 0;
-        foreach (var num in A) {
+        foreach (var num in A)
             bigInt += num * B.Where(b => b == num).Count();
-        }
         return new($"{bigInt}");
     }
 }
