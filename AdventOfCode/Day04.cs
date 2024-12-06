@@ -2,19 +2,14 @@
 namespace AdventOfCode;
 
 public class Day04 : BaseDay {
-    private List<string> _input;
+    private readonly List<string> _input;
 
     public Day04() {
         _input = File.ReadAllLines(InputFilePath).Select(l => "OOO" + l + "OOO").ToList();
         var fillerString = "";
         foreach (var letter in _input[0])
             fillerString += "O";
-        _input = _input.Prepend(fillerString).ToList();
-        _input = _input.Prepend(fillerString).ToList();
-        _input = _input.Prepend(fillerString).ToList();
-        _input = _input.Append(fillerString).ToList();
-        _input = _input.Append(fillerString).ToList();
-        _input = _input.Append(fillerString).ToList();
+        _input = [fillerString, fillerString, fillerString, .. _input, fillerString, fillerString, fillerString];
     }
 
     public override ValueTask<string> Solve_1() {
