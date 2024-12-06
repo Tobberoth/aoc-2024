@@ -53,40 +53,19 @@ public class Day05 : BaseDay {
     }
 
     private List<int> FixOrder(List<int> update) {
-        List<int> internalUpdate = new(update);
-        // How do we do this?
-        while (!InternalFixOrder(internalUpdate)) {
-            // Loop
-        }
-        return internalUpdate;
-    }
-    private bool InternalFixOrder(List<int> update) {
-        // Validate
-        // If error, restructure and return false
-        // If no error, return true
-
-        // Algo is very slow, need some smarter way to sort
-        for (var i = 0; i < update.Count; i++) {
-            var mustBeAfter = ValidationRules.Where(r => r.Before == update[i]).Select(r => r.After).ToList();
-            for (var j = 0; j < i; j++) {
-                if (mustBeAfter.Contains(update[j])) {
-                    var page = update[i];
-                    update.Remove(page);
-                    update.Insert(j-1, page);
-                    return false;
-                }
-            }
-            var mustBeBefore = ValidationRules.Where(r => r.After == update[i]).Select(r => r.Before).ToList();
-            for (var j = i+1; j < update.Count; j++) {
-                if (mustBeBefore.Contains(update[j])) {
-                    var page = update[i];
-                    update.Remove(page);
-                    update.Insert(j, page);
-                    return false;
+        var initialLength = update.Count;
+        List<int> newOrder = [];
+        while (newOrder.Count < initialLength) {
+            foreach (var num in update) {
+                var mustBeAfter = ValidationRules.Where(r => r.After == num && update.Contains(r.Before)).Select(r => r.Before).ToList();
+                if (mustBeAfter.Count == 0) {
+                    update.Remove(num);
+                    newOrder.Add(num);
+                    break;
                 }
             }
         }
-        return true;
+        return newOrder;
     }
 
     private static int GetMidPage(List<int> update) {
