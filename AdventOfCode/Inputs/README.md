@@ -1,0 +1,1 @@
+Place puzzle inputs in this folder, named XX.txt, where XX is the day.
